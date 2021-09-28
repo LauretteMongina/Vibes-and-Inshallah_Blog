@@ -27,7 +27,7 @@ def logout():
     flash('Logged out successfully')
     return redirect(url_for("main.index"))
 
-@auth.route('/register',methods = ['GET','POST'])
+@auth.route('templates/auth/register',methods = ['GET','POST'])
 def register():
     
     """
@@ -41,4 +41,4 @@ def register():
 
         return redirect(url_for('auth.login'))
         title = " Create New Account"
-    return render_template('auth/register.html', registration_form = registration_form)
+    return render_template('templates/auth/register.html', registration_form = registration_form)

@@ -8,7 +8,7 @@ from ..email import mail_message
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
-    form = LoginForm()
+    login_form = LoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email = login_form.email.data).first()
         if user is not None and user.verify_password(login_form.password.data):
@@ -18,7 +18,7 @@ def login():
         flash('Invalid username or Password')
 
     title = "Login to your account"
-    return render_template('auth/login.html',form = form, title = title)
+    return render_template('auth/login.html',login_form = login_form, title = title)
 
 @auth.route('/logout')
 @login_required
@@ -41,4 +41,4 @@ def register():
 
         return redirect(url_for('auth.login'))
         title = " Create New Account"
-    return render_template('auth/signup.html',form = form,title = title)
+    return render_template('auth/signup.html',reg_form = form,title = title)

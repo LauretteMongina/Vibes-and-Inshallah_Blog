@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     profile_pic_path = db.Column(db.String())
-    blogs = db.relationship('BlogPost', backref='user', lazy='dynamic')
+    posts = db.relationship('Post', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref='user', lazy='dynamic')
 
     
@@ -45,7 +45,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    blogs = db.relationship('BlogPost', backref='category', lazy='dynamic')
+    posts = db.relationship('Post', backref='category', lazy='dynamic')
 
     def __repr__(self):
         return f'Category {self.name}'
@@ -55,59 +55,59 @@ class Quotes:
         self.author = author
         self.quote = quote
 
-class BlogPost(db.Model):
-    __tablename__ = 'blogs'
+class Post(db.Model):
+    __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     title = db.Column(db.String(255),nullable = False)
-    post = db.Column(db.Text(), nullable = False)
-    comment = db.relationship('Comment',backref='blogpost',lazy='dynamic')
+    content = db.Column(db.Text(), nullable = False)
+    comment = db.relationship('Comment',backref='post',lazy='dynamic')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     
-    def save_blog_post(self):
+    def save_post(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def get_blogs(cls):
-        blogs = Blog_post.query.all()
-        return blogs
+    def get_posts(cls):
+        posts = Post.query.all()
+        return posts
 
     # get user posts by user id
     @classmethod
-    def get_user_blogs(cls, user_id):
-        blogs = Blog_post.query.filter_by(user_id=user_id)
+    def get_user_posts(cls, user_id):
+        posts = Post.query.filter_by(user_id=user_id)
         return blogs
-    def get_blog(id):
-        blog = Blog_post.query.filter_by(id=id).first()
+    def get_post(id):
+        post = Post.query.filter_by(id=id).first()
 
     # get post by category
     @classmethod
-    def get_blog_post_by_category(cls, category_id):
-        blogs = Blog_post.query.filter_by(category_id=category_id)
-        return blogs
+    def get_post_by_category(cls, category_id):
+        blogs = Post.query.filter_by(category_id=category_id)
+        return posts
 
     # get post comments
     def get_comments(self):
-        comments = Comment.query.filter_by(BlogPost_id=self.id)
+        comments = Comment.query.filter_by(Post_id=self.id)
         return comments
 
-    def delete_blogpost(self):
+    def delete_post(self):
         db.session.delete(self)
         db.session.commit()
 
         
     def __repr__(self):
-        return f'BlogPost {self.post}'
+        return f'Post {self.content}'
 
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.Text(),nullable = False)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable = False)
-    blogpost_id = db.Column(db.Integer,db.ForeignKey('blogs.id'),nullable = False)
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'),nullable = False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_comment(self):
@@ -118,8 +118,8 @@ class Comment(db.Model):
         comments = Comment.query.all()
         return comments
     @classmethod
-    def get_comments(cls,blog_post_id):
-        comments = Comment.query.filter_by(blog_post_id=blog_post_id).all()
+    def get_comments(cls,post_id):
+        comments = Comment.query.filter_by(post_id=post_id).all()
 
         return comments
 

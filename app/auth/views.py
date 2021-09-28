@@ -41,4 +41,4 @@ def register():
 
         return redirect(url_for('auth.login'))
         title = " Create New Account"
-    return render_template('auth/signup.html',registration_form = registration_form,title = title)
+    return render_template('auth/register.html', registration_form = form)

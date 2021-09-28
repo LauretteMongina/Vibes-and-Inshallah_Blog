@@ -13,7 +13,7 @@
   <li class="nav-link" style="display: inline-block"><a href="{{ url_for('blog_posts.individual') }}" style="color: red">Create Post</a></li>
   {% else %}
   <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.login') }}" style="color: red">Log In</a></li>
-  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.signup') }}" style="color:red">Sign Up</a></li>
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.register') }}" style="color:red">Sign Up</a></li>
   {% endif %}
 </ul>
 </div>

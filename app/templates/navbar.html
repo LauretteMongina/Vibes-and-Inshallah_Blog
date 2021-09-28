@@ -1,0 +1,20 @@
+<nav class="nav justify-content-between container mt-5">
+  <div class="nav-brand col-md-7">
+    <img src="{{ url_for('static',filename='butter.png') }}" alt="">
+  </div>
+<div class="col-md-5">
+<ul class="nav justify-content-end" style="margin: 0;padding: 0;">
+<li class="nav-item" style="display: inline-block">
+  <a class="nav-link active" href="{{ url_for('main.index') }}" style="color:red;">Home</a>
+</li>
+{% if current_user.is_authenticated %}
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.logout') }}" style="color: red">Log Out</a></li>
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('account') }}" style="color: red">Account</a></li>
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('blog_posts.individual') }}" style="color: red">Create Post</a></li>
+  {% else %}
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.login') }}" style="color: red">Log In</a></li>
+  <li class="nav-link" style="display: inline-block"><a href="{{ url_for('auth.register') }}" style="color:red">Sign Up</a></li>
+  {% endif %}
+</ul>
+</div>
+</nav>

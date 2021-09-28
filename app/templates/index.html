@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container" >
+        <div class="row d-flex h-100 mt-5">
+            <div class="col-md-12 mt-3 text-center">
+                <h1 style="color: black;font-weight: bold;">Welcome to Vibes and Inshallah</h1>
+                <p class="text-light" style="color: white;" >Personal blog site for sharing opinions.<br>Interact with me and get my latest blog posts</p>
+                <a href="{{ url_for('auth.register') }}" class="btn" style="background-color: transparent;color:red; border: 1px solid white;">Register to get started</a>
+
+
+            </div>
+        </div>
+        <div class="row col-md-12 text-center">
+            <div class=" card quotes mt-5 w-50 mx-auto text-center" style="background-color:rgb(236, 235, 229)">
+                <h3 class="text-dark m-0 m-2"><strong>Daily quotes</strong></h3>
+                <blockquote class="dark-light" >{{ quote.author }}</blockquote>
+                <h6 class="text-dark" style="font-size: medium;">{{ quote.quote }}</h6>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="container mt-5 text-center">
+                  <div class="card-columns">
+           {# Go through each blog post #}
+           {% for blog in blogs.items %}
+
+
+
+                <div class="w-100 h-100 card p-5">
+
+
+                    <h2><a class="card-title text-primary" href="  {{ url_for('main.blog_post', blog_post_id=post.id) }}">{{ post.title[:20] }}</a></h2>
+                    <p class="card-text ">{{ post.text[:100] }}...</p>
+                    <h6 class="text-white badge badge-info">Published on: {{ post.created_at.strftime('%Y-%m-%d') }}</h6><br>
+                    <a href="{{ url_for('main.user_posts', username=post.author.username) }}" class="text-primary">Written By: {{ post.author.username }}</a><br>
+                    <a href="{{ url_for('main.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read Blog Post</a>
+                    <a href="{{ url_for('main.blog_post', blog_post_id=post.id) }}" class="btn btn-sm btn-success"><i
+                        class="fa fa-comment"></i> Comment</a>
+                </div>
+
+    {% endfor %}
+        </div>
+        </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container-fluid">
+                <div class="card about">
+                    <div class="card-title">
+                        <h4 style="color: red;">About </h4>
+                    </div>
+                    <p class="card-text" style="color: white;">At vibes and inshallah we appreciate laughter,art,cultur and music. So go ahead and enjoy our blogs!!</p>
+                </div>
+            </div>
+            <div class="container-fluid">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+                </div>
+                {% endfor %}
+                <form class="form-inline ml-2" action="{{url_for('main.subscriber')}}" method="POST">
+                    <div class="md-form form-group">
+                        <label class="black-color" style="color: white;">Email Address...</label>
+                        <input type="email"  class="form-control " name ="subscriber" required>
+                    </div>
+                    <div class="md-form form-group">
+                        <button class="btn btn-sm btn-outline-info" id="subs" style="background-color: red;">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+     
+{% endblock %}

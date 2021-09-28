@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <form class="form-group" method="POST">
+     {{ form.hidden_tag() }}
+
+     <div class="form-group">
+     <div class="text-light">{{ form.title.label(class="form-control-label") }}</div>
+    <div class="text-light" >{{ form.title(class="form-control form-control-lg ") }}</div> 
+     </div>
+     <div class="form-group">
+     <div class="text-light">{{ form.text.label(class="form-control-label") }}</div>
+     {{ form.text(class="form-control form-control-lg") }}
+     </div>
+     <div class="form-group">
+         {{ form.submit(class="btn btn-outline-info") }}
+     </div>
+  </form>
+
+</div>
+
+{% endblock content %}

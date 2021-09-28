@@ -25,19 +25,19 @@
                 <div class="container mt-5 text-center">
                   <div class="card-columns">
            {# Go through each blog post #}
-           {% for blog in blogs.items %}
+           {% for post in posts %}
 
 
 
                 <div class="w-100 h-100 card p-5">
 
 
-                    <h2><a class="card-title text-primary" href="  {{ url_for('main.blog_post', blog_post_id=post.id) }}">{{ post.title[:20] }}</a></h2>
-                    <p class="card-text ">{{ post.text[:100] }}...</p>
-                    <h6 class="text-white badge badge-info">Published on: {{ post.created_at.strftime('%Y-%m-%d') }}</h6><br>
-                    <a href="{{ url_for('main.user_posts', username=post.author.username) }}" class="text-primary">Written By: {{ post.author.username }}</a><br>
-                    <a href="{{ url_for('main.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read Blog Post</a>
-                    <a href="{{ url_for('main.blog_post', blog_post_id=post.id) }}" class="btn btn-sm btn-success"><i
+                    <h2><a class="card-title text-primary" >{{ post.post.title[:20] }}</a></h2>
+                    <p class="card-text ">{{ post.content[:100] }}...</p>
+                    <h6 class="text-white badge badge-info">Published on: {{ blogpost.created_at.strftime('%Y-%m-%d') }}</h6><br>
+                    <p class="text-primary">Written By: {{ post.author.username }}</p><br>
+                    <a href="{{ url_for('main.index', id=post.id) }}" class="btn btn-primary">Read Blog Post</a>
+                    <a href= "{{ url_for('main.view', id=post.id) }}" class="btn btn-sm btn-success"><i
                         class="fa fa-comment"></i> Comment</a>
                 </div>
 

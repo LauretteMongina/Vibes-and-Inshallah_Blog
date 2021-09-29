@@ -5,8 +5,9 @@ from wtforms.validators import Required
 
 class UpdateProfile(FlaskForm):
     username = StringField('Enter Your Username', validators=[Required()])
-
+    email = StringField('Email Address', validators=[Required(),Email()])
     bio = TextAreaField('Tell us about you.', validators=[Required()])
+    profile_picture = FileField('profile picture', validators=[FileAllowed(['jpg','png'])])
     submit = SubmitField('Submit')
 
 

@@ -15,7 +15,7 @@ def login():
             login_user(user,login_form.remember.data)
             next = request.args.get('next')
             if next == None or not next[0]=='/':
-                next = url_for('main.index')
+                next = (url_for('main.index'))
             return redirect(next)
 
     title = "Login to your account"

@@ -56,7 +56,6 @@ def update_pic(uname):
     return redirect(url_for('main.profile', uname=uname))
 
 @main.route('/view/<int:id>', methods=['GET', 'POST'])
-@login_required
 def view(id):
     post = Post.query.get_or_404(id)
     post_comments = Comment.query.filter_by(post_id=id).all()
@@ -121,7 +120,6 @@ def delete_comment(comment_id):
     return redirect(url_for('main.index'))
 
 @main.route('/subscriber', methods=['GET', 'POST'])
-@login_required
 def subscriber():
     subscriber_form = SubscriberForm()
     if subscriber_form.validate_on_submit():
@@ -131,7 +129,6 @@ def subscriber():
 
     return render_template('index.html', subscriber_form=subscriber_form)
 @main.route('/post/new', methods=['GET', 'POST'])
-@login_required
 def post():
     """
     View Post function that returns the Post page and data

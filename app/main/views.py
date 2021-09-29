@@ -81,13 +81,13 @@ def update_post(id):
         abort(403)
     form = Blog_postForm()
     if form.validate_on_submit():
-        post.post_title = form.post_title.data
+        post.title = form.post_title.data
         post.content = form.content.data
         db.session.commit()
         flash('Your post has been Updated', 'successfully')
         return redirect(url_for('main.index'))
     elif request.method == 'GET':
-        form.post_title.data = post.post_title
+        form.post_title.data = post.title
         form.content.data = post.content
     return render_template('users_blog_posts.html', form=form)
 
@@ -132,11 +132,11 @@ def post():
         title = post_form.post_title.data
         content = post_form.content.data
 
-        new_post = Post(post_title=post_title, content=content, author=current_user)
+        new_post = Post(title=title, content=content, author=current_user)
         db.session.add(new_post)
         db.session.commit()
 
         return redirect(url_for('main.index'))
 
     title = 'New Post'
-    return render_template('blog.html', title=title, post_form=post_form)
+    return render_template('blog.html', post_form=post_form)

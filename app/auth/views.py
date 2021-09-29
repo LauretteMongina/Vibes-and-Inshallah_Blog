@@ -13,7 +13,7 @@ def login():
         user = User.query.filter_by(email = login_form.email.data).first()
         if user is not None and user.verify_password(login_form.password.data):
             login_user(user,login_form.remember.data)
-             next = request.args.get('next')
+            next = request.args.get('next')
 
             # So let's now check if that next exists, otherwise we'll go to
             # the welcome page.

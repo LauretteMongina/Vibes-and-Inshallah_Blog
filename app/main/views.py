@@ -32,7 +32,7 @@ def profile():
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.bio.data = current_user.bio
-    profile_pic_path = url_for('static',filename = 'photos/'+ current_user.profile_pic_path) 
+    profile_pic_path = url_for('static',filename = 'photos/'+ 'current_user.profile_pic_path') 
     return render_template('profile/profile.html', profile_pic_path=profile_pic_path, form = form)
 
 @main.route('/user/<name>/updateprofile', methods = ['POST','GET'])
@@ -132,7 +132,7 @@ def post():
         post_title = post_form.post_title.data
         content = post_form.content.data
 
-        new_post = Post(post_title=post_title, content=content, author=current_user)
+        new_post = Post(title=title, content=content, author=current_user)
         db.session.add(new_post)
         db.session.commit()
 

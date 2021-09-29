@@ -129,10 +129,10 @@ def post():
     post_form = Blog_postForm()
 
     if post_form.validate_on_submit():
-        post_title = post_form.post_title.data
+        post.title = post_form.post_title.data
         content = post_form.content.data
 
-        new_post = Post(title=title, content=content, author=current_user)
+        new_post = Post(post.title=post.title, content=content, author=current_user)
         db.session.add(new_post)
         db.session.commit()
 

@@ -54,7 +54,7 @@ def view(id):
     post_comments = Comment.query.filter_by(post_id=id).all()
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
-        new_comment = Comment(post_id=id, comment=comment_form.comment.data, author=current_user)
+        new_comment = Comment(post_id=id, comment=comment_form.comment.data, user_id=user_id)
         new_comment.save_comment()
 
     return render_template('individual.html', post=post, post_comments=post_comments, comment_form=comment_form)
@@ -64,12 +64,11 @@ def view(id):
 @login_required
 def delete(id):
     post = Post.query.get_or_404(id)
-    if post.author != current_user:
+    if post.user.username != current_user:
         abort(403)
     db.session.delete(post)
     db.session.commit()
 
-    # flash('Your post has been deleted', 'successfully')
     return redirect(url_for('main.index'))
 
 
@@ -77,18 +76,20 @@ def delete(id):
 @login_required
 def update_post(id):
     post = Post.query.get_or_404(id)
-    if post.author != current_user:
+    if post.user.username != current_user:
         abort(403)
     form = Blog_postForm()
     if form.validate_on_submit():
         post.title = form.post_title.data
         post.content = form.content.data
+        user_id =  current_user._get_current_object().id
         db.session.commit()
         flash('Your post has been Updated', 'successfully')
         return redirect(url_for('main.index'))
     elif request.method == 'GET':
         form.post_title.data = post.title
         form.content.data = post.content
+        current_user._get_current_object().id = user_id
     return render_template('users_blog_posts.html', form=form)
 
 
@@ -97,7 +98,7 @@ def update_post(id):
 def comment(id):
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
-        new_comment = Comment(post_id=id, comment=comment.form.data, author=current_user)
+        new_comment = Comment(post_id=id, comment=comment.form.data, user_id=user_id)
         new_comment.save_comment()
 
     return render_template('index.html', comment_form=comment_form)

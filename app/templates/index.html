@@ -35,7 +35,7 @@
                     <h2><a class="card-title text-primary" style="color: red;" >{{ post.title[:20] }}</a></h2>
                     <p class="card-text " style="color: white;">{{ post.content[:100] }}...</p>
                     <h6 class="text-white badge badge-info">Published on: {{ post.created_at.strftime('%Y-%m-%d') }}</h6><br>
-                    <p class="text-primary">Written By: {{ post.username }}</p><br>
+                    <p class="text-primary">Written By: {{ post.user.username }}</p><br>
                     <a href="{{ url_for('main.index', id=post.id) }}" class="btn btn-primary" >Read Blog Post</a>
                     <a href= "{{ url_for('main.view', id=post.id) }}" class="btn btn-sm btn-success" "><i
                         class="fa fa-comment"></i> Comment</a>

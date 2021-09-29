@@ -131,8 +131,8 @@ def post():
     if post_form.validate_on_submit():
         title = post_form.post_title.data
         content = post_form.content.data
-
-        new_post = Post(title=title, content=content)
+        user_id =  current_user._get_current_object().id
+        new_post = Post(title=title, content=content,user_id=user_id)
         db.session.add(new_post)
         db.session.commit()
 

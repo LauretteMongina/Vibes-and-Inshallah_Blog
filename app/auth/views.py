@@ -14,9 +14,6 @@ def login():
         if user is not None and user.verify_password(login_form.password.data):
             login_user(user,login_form.remember.data)
             next = request.args.get('next')
-
-            # So let's now check if that next exists, otherwise we'll go to
-            # the welcome page.
             if next == None or not next[0]=='/':
                 next = url_for('main.index')
             return redirect(next)

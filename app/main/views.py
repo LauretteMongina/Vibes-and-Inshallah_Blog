@@ -136,12 +136,11 @@ def post():
     """
     View Post function that returns the Post page and data
     """
-    post_form = Blog_postForm()
+    blog_postform = Blog_postForm()
 
-    if post_form.validate_on_submit():
-        post_title = post_form.post_title.data
-        content = post_form.content.data
-        # user = current_user
+    if blog_postform.validate_on_submit():
+        post_title = blog_postform.post_title.data
+        content = blog_postform.content.data
 
         new_post = Post(post_title=post_title, content=content, author=current_user)
         db.session.add(new_post)
@@ -150,4 +149,4 @@ def post():
         return redirect(url_for('main.index'))
 
     title = 'New Post'
-    return render_template('blog.html', title=title, post_form=post_form)
+    return render_template('blog.html', title=title, blog_postform=blog_postform)

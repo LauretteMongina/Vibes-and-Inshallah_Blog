@@ -1,7 +1,7 @@
 from flask_wtf.file import FileField,FileAllowed
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, SelectField
-from wtforms.validators import Required,Email,
+from wtforms.validators import Required,Email
 
 
 class UpdateProfile(FlaskForm):

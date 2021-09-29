@@ -132,7 +132,7 @@ def post():
         title = post_form.post_title.data
         content = post_form.content.data
 
-        new_post = Post(title=title, content=content, username=username)
+        new_post = Post(title=title, content=content)
         db.session.add(new_post)
         db.session.commit()
 

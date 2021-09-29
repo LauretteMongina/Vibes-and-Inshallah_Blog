@@ -54,6 +54,7 @@ def view(id):
     post_comments = Comment.query.filter_by(post_id=id).all()
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
+        user_id =  current_user._get_current_object().id
         new_comment = Comment(post_id=id, comment=comment_form.comment.data, user_id=user_id)
         new_comment.save_comment()
 

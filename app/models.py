@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
@@ -31,9 +32,7 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.secure_password,password) 
     
-    def save_u(self):
-        db.session.add(self)
-        db.session.commit()
+
 
     def delete(self):
         db.session.delete(self)

@@ -24,9 +24,9 @@ def profile(username):
     return render_template("profile/profile.html", user=user)
 
 
-@main.route('/profile/<usernamename>/update', methods=['GET', 'POST'])
+@main.route('/profile/<username>/update', methods=['GET', 'POST'])
 @login_required
-def update_profile(uname):
+def update_profile(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
@@ -53,7 +53,7 @@ def update_pic(username):
         path = f'photos/{filename}'
         user.profile_pic_path = path
         db.session.commit()
-    return redirect(url_for('main.profile', usernamename=username))
+    return redirect(url_for('main.profile', username=username))
 
 @main.route('/view/<int:id>', methods=['GET', 'POST'])
 def view(id):

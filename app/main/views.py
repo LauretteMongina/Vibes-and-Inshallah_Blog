@@ -14,46 +14,39 @@ def index():
     categories = Category.query.all()
     return render_template('index.html', quote = quote,categories = categories,posts = posts)
 
-@main.route('/profile/<username>')
-def profile(username):
-    user = User.query.filter_by(username=username).first()
-
-    if user is None:
-        abort(404)
-
-    return render_template("profile/profile.html", user=user)
-
-
-@main.route('/profile/<username>/update', methods=['GET', 'POST'])
+@main.route('/profile',methods = ['POST','GET'])
 @login_required
-def update_profile(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        abort(404)
-
+def profile():
     form = UpdateProfile()
+    if form.validate_on_submit():
+        if form.profile_picture.data:
+            picture_file = save_picture(form.profile_picture.data)
+            current_user.profile_pic_path = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        current_user.bio = form.bio.data
+        db.session.commit()
+        flash('Succesfully updated your profile')
+        return redirect(url_for('main.profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.bio.data = current_user.bio
+    profile_pic_path = url_for('static',filename = 'photos/'+ current_user.profile_pic_path) 
+    return render_template('profile/profile.html', profile_pic_path=profile_pic_path, form = form)
 
+@main.route('/user/<name>/updateprofile', methods = ['POST','GET'])
+@login_required
+def updateprofile(name):
+    form = UpdateProfile()
+    user = User.query.filter_by(username = name).first()
+    if user == None:
+        abort(404)
     if form.validate_on_submit():
         user.bio = form.bio.data
-
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for('main.profile', username=user.username))
-
-    return render_template('profile/update.html', form=form)
-
-
-@main.route('/profile/<username>/update/pic', methods=['POST'])
-@login_required
-def update_pic(username):
-    user = User.query.filter_by(username=username).first()
-    if 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        path = f'photos/{filename}'
-        user.profile_pic_path = path
-        db.session.commit()
-    return redirect(url_for('main.profile', username=username))
+        user.save()
+        return redirect(url_for('.profile',name = name))
+    return render_template('profile/update.html',form =form)
 
 @main.route('/view/<int:id>', methods=['GET', 'POST'])
 def view(id):

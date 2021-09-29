@@ -149,5 +149,5 @@ def post():
 
         return redirect(url_for('main.index'))
 
-    title = 'New Post | One Minute Pitch'
+    title = 'New Post'
     return render_template('blog.html', title=title, post_form=post_form)
